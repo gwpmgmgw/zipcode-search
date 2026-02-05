@@ -1,0 +1,51 @@
+    body {
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      gap: 100px;
+      justify-content: center;            /*横方向(左右)を中央に寄せる　*/
+      align-items: center; 
+
+      background:
+         linear-gradient(
+             rgba(255,255,255,0.3),
+             rgba(146, 35, 35, 0.3)
+        ),
+      url("/static/JP.jpg");
+
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+    }
+
+    .search {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .bg::after{
+      content:"";
+      position: absolute;
+      inset: 0;
+      background: rbga(255,255,255, 0.2)
+    }
+      
+    input {
+      padding: 8px;
+      font-size: 16px;
+      width: 200px;
+    }
+    button {
+      background: linear-gradient(135deg, hsl(0, 9%, 90%), #43f05a);
+      padding: 10px 20px;           /*検索ボタンの□の余白　縦px 横px　*/
+      font-size: 18px;
+      margin-top: 30px;
+    }
+    .result {
+      display: flex;
+      flex-direction: column;
+      align-items: center;      
+      margin-top: 50px;
+      font-size: 19px;
+    }

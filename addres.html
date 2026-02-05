@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>〒 郵便番号検索</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+
+<body>
+
+ <div class="search">
+    <h1>〒 郵便番号検索</h1>
+    <input type="text" id="zipcode" placeholder="例: 1000001">
+    <button onclick="searchAddress()">検索</button>
+
+    <div class="result" id="result"></div>
+ </div>
+
+ <div id="map-container">
+    <iframe
+      id="map"
+      width="400"
+      height="300"
+      style="border: 0;"
+      loading="lazy"
+      referrerpolicy="no-referrer-when-downgrade">
+    </iframe>
+ </div>
+
+<script>
+async function searchAddress() {
+    const zipcode = document.getElementById("zipcode").value;
+    const resultDiv = document.getElementById("result");
+
+  if (!zipcode) {
+    resultDiv.textContent = "郵便番号を入力してください！";
+    return;
+  }
+
+  try {
+    const response = await fetch(
+      `https://zipcloud.ibsnet.co.jp/api/search?zipcode=${zipcode}`
+    );
+    const data = await response.json();
+
+    if (data.status !== 200 || !data.results) {
+      resultDiv.textContent = "住所が見つかりませんでした";
+      return;
+    }
+
+    const address = data.results[0];
+
+    const fullAddress =
+      address.address1 +
+      address.address2 +
+      address.address3;
+
+    const mapIframe = document.getElementById("map");
+    
+    const encodedAddress = encodeURIComponent(fullAddress);
+
+    mapIframe.src =
+      "https://www.google.com/maps?q=" +
+      encodedAddress + 
+      "&output=embed";
+
+    resultDiv.textContent = `住所：${fullAddress}`;
+
+  } catch (error) {
+    resultDiv.textContent = "エラーが発生しました";
+    console.error(error);
+  }
+}
+</script>
+
+</body>
+</html>
